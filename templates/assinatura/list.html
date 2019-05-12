@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Minhas Assinaturas {% endblock %}
+
+{% block conteudo %}
+
+<h2>Minhas Assinaturas</h2>
+<br/>
+<br/>
+<div class="table-responsive">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Preço</th>
+            <th scope="col">Sazonalidade</th>
+            <th scope="col">Tipo(s) de Pagamento</th>
+            <th scope="col">Ação</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for assinatura in assinaturas %}
+        <tr>
+            <td>{{ assinatura.nome }}</td>
+            <td>{{ assinatura.preco }} R$</td>
+            <td>{{ assinatura.sazonalidade }}</td>
+            <td>{{ assinatura.tipo_pagamento.count }}</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="{% url 'assinatura_update' assinatura.id %}" class="btn btn-outline-warning">Editar</a>
+                    <a href="{% url 'assinatura_delete' assinatura.id %}" class="btn btn-outline-danger">Deletar</a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<a href="{% url 'assinatura_create'%}" class="btn btn-outline-primary">Nova Assinatura</a>
+{% endblock %}

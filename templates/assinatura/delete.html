@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Deletar Assinatura {% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block conteudo %}
+
+<h1>Tem certeza que deseja deletar essa Assinatura?</h1>
+
+<form method="post">
+    {% csrf_token %}
+  <fieldset disabled>
+      {{ form|crispy }}
+  </fieldset>
+  <div class="btn-group" role="group" aria-label="Basic example">
+    <button type="submit" class="btn btn-danger">Sim</button>
+    <a href="{% url 'assinatura_list'%}" class="btn btn-primary">Não tenho certeza</a>
+  </div>
+</form>
+
+{% endblock %}

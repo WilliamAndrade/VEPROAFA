@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block titulo %}Cooperativa - Dados Principais{% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block conteudo %}
+
+<div class="row justify-content-center corretor">
+
+    <div class="col-8">
+
+        <div class="card ">
+            <div class="card-header">
+                <h3 class="card-title">Cooperativa - Dados Principais</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="submit" class="btn btn-primary">Atualizar</button>
+                        <a href="{% url 'cooperativa_view'%}" class="btn btn-secondary">Não tenho certeza</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cadastro de Cooperativas</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static '/bootstrap/css/style.css' %}" />
+</head>
+
+{% load crispy_forms_tags %}
+
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+    <span class="navbar-brand mb-0 h1">VEPROAFA - Cooperativa</span>
+</nav>
+
+<div class="row justify-content-center corretor">
+
+    <div class="col-10">
+
+        <div class="card ">
+            <div class="card-header">
+                <h3 class="card-title">Cadastro de Cooperativa</h3>
+            </div>
+            <div class="card-body">
+                <form action="{% url 'cooperativa_create' %}" method="post">
+                    {% csrf_token %}
+                    {{form|crispy}}
+                    <button type="submit" class="btn btn-primary">Cadastrar</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script src="{% static '/bootstrap/js/jquery-3.4.0.min.js' %}"></script>
+<script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+
+</html>

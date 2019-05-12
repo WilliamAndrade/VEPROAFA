@@ -1,0 +1,66 @@
+{% load static %}
+{% load auth_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block titulo %}{% endblock%}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static '/bootstrap/css/style.css' %}"/>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">VEPROAFA</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            {% if request.user|has_group:'COOPERATIVA' %}
+            <li class="nav-item">
+                <a href="{% url 'cooperativa_view' %}" class="nav-link">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'cooperativa_view' %}" class="nav-link">Perfil Cooperativa</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'assinatura_list' %}">Assinaturas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'producao_list' %}">Minha Produção</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'produto_list' %}" class="nav-link">Produtos</a>
+            </li>
+            {% endif %}
+            {% if request.user|has_group:'CLIENTE' %}
+            <li class="nav-item">
+                <a href="{% url 'produto_list' %}" class="nav-link">Painel Assinaturas</a>
+            </li>
+
+            <li class="nav-item">
+                <a href="{% url 'produto_list' %}" class="nav-link">Minhas Assinaturas</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'produto_list' %}" class="nav-link">Perfil Cliente</a>
+            </li>
+            {% endif %}
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <a href="{% url 'my_logout'%}" class="btn btn-outline-danger my-2 my-sm-0">Sair</a>
+        </form>
+    </div>
+</nav>
+
+<div class="container corretor">
+    {% block conteudo %}
+    {% endblock %}
+</div>
+<script src="{% static '/bootstrap/js/jquery-3.4.0.min.js' %}"></script>
+<script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

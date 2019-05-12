@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Produtos {% endblock %}
+
+{% block conteudo %}
+
+<h2>Produtos</h2>
+<br/>
+<br/>
+<div class="table-responsive">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Nome</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Medida</th>
+            <th scope="col">Ação</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for produto in produtos %}
+        <tr>
+            <td>{{ produto.nome }}</td>
+            <td>{{ produto.tipo }}</td>
+            <td>{{ produto.un_medida }}</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="{% url 'produto_view' produto.id %}" class="btn btn-info">Visualizar</a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Minha Cooperativa {% endblock %}
+
+{% block conteudo %}
+
+<div class="card">
+
+    <div class="card-header">
+        <h2>Minha Cooperativa
+        <a href="{% url 'cooperativa_update' cooperativa.id %}" class="btn btn-warning" style="float:right" >Editar</a>
+        </h2>
+    </div>
+
+    <div class="card-body">
+        <form>
+            <div class="form-group row">
+                <label for="razao_social" class="col-sm-2 col-form-label">Razão Social</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="razao_social" value="{{ cooperativa.razao_social }}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="nome_fantasia" class="col-sm-2 col-form-label">Nome Fantasia</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="nome_fantasia" value="{{ cooperativa.nome_fantasia }}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="email" class="col-sm-2 col-form-label">Email</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="email" value="{{ cooperativa.email }}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="aprovado" class="col-sm-2 col-form-label">Status</label>
+                <div class="col-sm-10">
+                    {% if cooperativa.aprovado == True %}
+                    <input type="text" readonly class="form-control-plaintext" id="aprovado" value="Cadastro Aprovado">
+                    {%else%}
+                    <input type="text" readonly class="form-control-plaintext" id="aprovado" value="Cadastro em pausa">
+                    {%endif%}
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="card-header">
+        <h2>Endereço
+        <a href="{% url 'endereco_update' cooperativa.endereco.id %}" class="btn btn-warning" style="float:right" >Editar</a>
+        </h2>
+    </div>
+
+    <div class="card-body">
+
+        <form>
+            <div class="form-group row">
+                <label for="logradouro" class="col-sm-2 col-form-label">Logradouro</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="logradouro" value="{{ cooperativa.endereco.logradouro}}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="nome_fantasia" class="col-sm-2 col-form-label">Bairro</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="bairro" value="{{ cooperativa.endereco.bairro }}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="numero" class="col-sm-2 col-form-label">Número</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="numero" value="{{ cooperativa.endereco.numero }}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="complemento" class="col-sm-2 col-form-label">Complemento</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="complemento" value="{{ cooperativa.endereco.complemento }}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="telefone" class="col-sm-2 col-form-label">Telefone</label>
+                <div class="col-sm-10">
+                    <input type="text" readonly class="form-control-plaintext" id="telefone" value="{{ cooperativa.endereco.telefone }}">
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+
+
+{% endblock %}

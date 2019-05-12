@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block titulo %} Minhas Produções {% endblock %}
+
+{% block conteudo %}
+
+<h2>Minha Produção</h2>
+<br/>
+<br/>
+<div class="table-responsive">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Produto</th>
+            <th scope="col">Preço</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Ação</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for producao in producoes %}
+        <tr>
+            <td>{{ producao.produto.nome }}</td>
+            <td>{{ producao.preco }}</td>
+            <td>{{ producao.quantidade }}</td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="{% url 'producao_update' producao.id %}" class="btn btn-outline-warning">Editar</a>
+                    <a href="{% url 'producao_delete' producao.id %}" class="btn btn-outline-danger">Deletar</a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+</div>
+<a href="{% url 'producao_create'%}" class="btn btn-outline-primary">Nova Produção</a>
+{% endblock %}
