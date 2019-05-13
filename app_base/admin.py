@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Produto,Producao,TipoPagamento,Cooperativa,Assinatura,Endereco,Cliente
+from .models import Produto,Producao,TipoPagamento,Cooperativa,Assinatura,Endereco,Cliente,Telefone
 
 # Register your models here.
 
@@ -10,3 +10,4 @@ admin.site.register(Cooperativa)
 admin.site.register(Assinatura)
 admin.site.register(Endereco)
 admin.site.register(Cliente)
+admin.site.register(Telefone)

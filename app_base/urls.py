@@ -5,6 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.index,name='index'),
     path('logout',views.my_logout,name='my_logout'),
+    path('dashboard/',views.dashboard,name='dashboard'),
     path('cooperativa/create/', views.cooperativa_create,name='cooperativa_create'),
     path('cooperativa/view/', views.cooperativa_view,name='cooperativa_view'),
     path('cooperativa/update/<int:id>', views.cooperativa_update,name='cooperativa_update'),
@@ -18,5 +19,8 @@ urlpatterns = [
     path('assinatura/create/', views.assinatura_create,name='assinatura_create'),
     path('assinatura/list/', views.assinatura_list,name='assinatura_list'),
     path('assinatura/update/<int:id>', views.assinatura_update,name='assinatura_update'),
-    path('assinatura/delete/<int:id>', views.assinatura_delete,name='assinatura_delete')
+    path('assinatura/delete/<int:id>', views.assinatura_delete,name='assinatura_delete'),
+    path('telefone/create/<int:id>', views.telefone_create,name='telefone_create'),
+    path('telefone/update/<int:id>', views.telefone_update,name='telefone_update'),
+    path('telefone/delete/<int:id>', views.telefone_delete,name='telefone_delete')
 ]

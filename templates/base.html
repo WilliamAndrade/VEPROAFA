@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <link rel="stylesheet" href="{% static '/bootstrap/css/bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="{% static '/bootstrap/css/style.css' %}"/>
+    <script src="{% static '/bootstrap/js/Chart.bundle.js' %}"></script>
 </head>
 <body>
 
@@ -21,7 +22,7 @@
         <ul class="navbar-nav mr-auto">
             {% if request.user|has_group:'COOPERATIVA' %}
             <li class="nav-item">
-                <a href="{% url 'cooperativa_view' %}" class="nav-link">Dashboard</a>
+                <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
             </li>
             <li class="nav-item">
                 <a href="{% url 'cooperativa_view' %}" class="nav-link">Perfil Cooperativa</a>
@@ -49,16 +50,22 @@
             </li>
             {% endif %}
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <a href="{% url 'my_logout'%}" class="btn btn-outline-danger my-2 my-sm-0">Sair</a>
-        </form>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a href="#" class="nav-link active">{{ user.username }}</a>
+            </li>
+            <li class="nav-item">
+                <a href="{% url 'my_logout'%}" class="btn btn-outline-danger my-2 my-sm-0">Sair</a>
+            </li>
+        </ul>
     </div>
 </nav>
 
-<div class="container corretor">
+<div class="container corretor corretor-card">
     {% block conteudo %}
     {% endblock %}
 </div>
+{% block scripts %}{% endblock %}
 <script src="{% static '/bootstrap/js/jquery-3.4.0.min.js' %}"></script>
 <script src="{% static '/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <script src="{% static '/bootstrap/js/bootstrap.min.js' %}"></script>

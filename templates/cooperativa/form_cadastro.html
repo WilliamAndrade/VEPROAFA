@@ -15,10 +15,10 @@
 <body>
 
 <nav class="navbar navbar-dark bg-dark">
-    <span class="navbar-brand mb-0 h1">VEPROAFA - Cooperativa</span>
+    <span class="navbar-brand mx-auto">VEPROAFA - Cooperativa</span>
 </nav>
 
-<div class="row justify-content-center corretor">
+<div class="row justify-content-center corretor corretor-card">
 
     <div class="col-10">
 
@@ -29,7 +29,16 @@
             <div class="card-body">
                 <form action="{% url 'cooperativa_create' %}" method="post">
                     {% csrf_token %}
-                    {{form|crispy}}
+                    {{formCooperativa|crispy}}
+                    {{formTelefone|crispy}}
+                    {{formEndereco|crispy}}
+                    <div class="form-group row">
+                        <label for="texto" class="col-sm-2 col-form-label"><font color="red">ATENÇÃO</font></label>
+                        <div class="col-sm-10">
+                            <textarea readonly class="form-control-plaintext" id="texto" style="color:red" rows="5" readonly>As informações em questão passaram por um período de avaliação que pode durar entre 3 a 15 dias, dentro desse período é possível que entremos em contato com você, enviaremos as credênciais de acesso no seu e-mail por isso fique atento a ele.
+                            </textarea>
+                        </div>
+                    </div>
                     <button type="submit" class="btn btn-primary">Cadastrar</button>
                 </form>
             </div>

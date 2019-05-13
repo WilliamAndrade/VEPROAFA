@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Producao,Produto,Assinatura,Cooperativa,Endereco
+from .models import Producao,Produto,Assinatura,Cooperativa,Endereco,Telefone
 from django import forms
 
 class FormCooperativa(forms.Form):
@@ -47,4 +47,13 @@ class ModFormAssinatura(ModelForm):
 class ModFormEndereco(ModelForm):
     class Meta:
         model=Endereco
-        fields=['logradouro','bairro','numero','complemento','telefone']
+        fields=['logradouro','bairro','numero','complemento']
+
+#Forms de Endereco - FIM
+
+#Forms de telefone
+
+class ModFormTelefone(ModelForm):
+    class Meta:
+        model=Telefone
+        fields=['telefone']

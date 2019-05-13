@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect, get_object_or_404
-from .models import Endereco,Cooperativa,Producao,Produto,Assinatura
+from .models import Endereco,Cooperativa,Producao,Produto,Assinatura,Telefone
 from . import forms
 from django.contrib.auth import logout
+import json
 
 # Create your views here.
 
@@ -12,33 +13,39 @@ def my_logout(request):
     logout(request)
     return redirect('login')
 
+def dashboard(request):
+    cooperativa = Cooperativa.objects.filter(usuario__id=request.user.id).first()
+    producoes = Producao.objects.filter(cooperativa=cooperativa)
+
+    nomes=[producao.produto.nome for producao in producoes]
+    valores=[int(producao.preco) for producao in producoes]
+
+    context={
+        'nomes':json.dumps(nomes),
+        'valores':json.dumps(valores)
+    }
+
+    return render(request,'dashboard/dashboard.html',context)
+
 #Views de cooperativa - INICIO
 def cooperativa_create(request):
-    form= forms.FormCooperativa(request.POST or None)
+    formCooperativa= forms.ModFormCooperativa(request.POST or None)
+    formTelefone=forms.ModFormTelefone(request.POST or None)
+    formEndereco=forms.ModFormEndereco(request.POST or None)
 
-    if form.is_valid():
-        endereco= Endereco(
-            logradouro=form.cleaned_data['logradouro'],
-            numero=form.cleaned_data['numero'],
-            complemento=form.cleaned_data['complemento'],
-            telefone=form.cleaned_data['telefone']
-        )
-        endereco.save()
-        #enderecoR=endereco.refresh_from_db()
-        cooperativa= Cooperativa(
-            usuario=request.user,
-            razao_social=form.cleaned_data['razao_social'],
-            nome_fantasia=form.cleaned_data['nome_fantasia'],
-            aprovado=False,
-            endereco=endereco
-        )
-        cooperativa.save()
+    if formCooperativa.is_valid() and formEndereco.is_valid() and formTelefone.is_valid():
+        cooperativa=formCooperativa.save(commit=False)
+        cooperativa.endereco=formEndereco.save()
+        telefone=formTelefone.save(commit=False)
+        telefone.cooperativa=cooperativa.save()
+        telefone.save()
         return redirect('login/')
-    return render(request, 'cooperativa/form_cadastro.html', {'form': form})
+    return render(request, 'cooperativa/form_cadastro.html', {'formCooperativa': formCooperativa,'formTelefone':formTelefone,'formEndereco':formEndereco})
 
 def cooperativa_view(request):
     cooperativa = Cooperativa.objects.filter(usuario__id=request.user.id).first()
-    return render(request, 'cooperativa/view.html', {'cooperativa': cooperativa})
+    telefones=Telefone.objects.filter(cooperativa=cooperativa)
+    return render(request, 'cooperativa/view.html', {'cooperativa': cooperativa,'telefones':telefones})
 
 def cooperativa_update(request,id):
     cooperativa = get_object_or_404(Cooperativa, pk=id)
@@ -49,18 +56,18 @@ def cooperativa_update(request,id):
         return redirect('cooperativa_view')
     return render(request, 'cooperativa/form.html', {'form': form})
 
-
 #Views de cooperativa - FIM
 
 #Views de Producao - INICO
 
 def producao_create(request):
-    form = forms.FormProducao(request.POST or None)
+    form = forms.ModFormProducao(request.POST or None)
     acao='Cadastrar'
     if form.is_valid():
         cooperativa = Cooperativa.objects.filter(usuario__id=request.user.id).first()
         #cooperativa= Cooperativa.objects.select_related('usuario').get(id=request.user.id)
-        producao=Producao(quantidade=form.cleaned_data['quantidade'],preco=form.cleaned_data['preco'],produto=form.cleaned_data['produto'],cooperativa=cooperativa)
+        producao=form.save(commit=False)
+        producao.cooperativa=cooperativa
         producao.save()
         return redirect('producao_list')
     return render(request, 'producao/form.html', {'form': form,'acao':acao})
@@ -117,7 +124,7 @@ def assinatura_create(request):
         cooperativa.refresh_from_db()
         cooperativa.assinaturas.add(assinatura)
         return redirect('assinatura_list')
-    return render(request, 'assinatura/form_cadastro.html', {'form': form, 'acao': acao})
+    return render(request, 'assinatura/form.html', {'form': form, 'acao': acao})
 
 def assinatura_list(request):
     cooperativa = Cooperativa.objects.filter(usuario__id=request.user.id).first()
@@ -134,7 +141,7 @@ def assinatura_update(request, id):
     if form.is_valid():
         form.save()
         return redirect('assinatura_list')
-    return render(request, 'assinatura/form_cadastro.html', {'form': form, 'acao': acao})
+    return render(request, 'assinatura/form.html', {'form': form, 'acao': acao})
 
 def assinatura_delete(request, id):
     cooperativa = Cooperativa.objects.filter(usuario__id=request.user.id).first()
@@ -161,3 +168,36 @@ def endereco_update(request,id):
     return render(request, 'endereco/form.html', {'form': form})
 
 #Views de Endereco - FIM
+
+#Views de Telefone
+
+def telefone_create(request, id):
+    form=forms.ModFormTelefone(request.POST or None)
+    acao='Cadastrar'
+
+    if form.is_valid():
+        cooperativa = get_object_or_404(Cooperativa, pk=id)
+        telefone=form.save(commit=False)
+        telefone.cooperativa=cooperativa
+        telefone.save()
+        return redirect('cooperativa_view')
+    return render(request, 'telefone/form.html', {'form': form, 'acao':acao})
+
+def telefone_update(request, id):
+    telefone = get_object_or_404(Telefone, pk=id)
+    form = forms.ModFormProducao(request.POST or None, instance=telefone)
+    acao = 'Atualizar'
+
+    if form.is_valid():
+        form.save()
+        return redirect('cooperativa_view')
+    return render(request, 'telefone/form.html', {'form': form, 'acao': acao})
+
+def telefone_delete(request, id):
+    telefone = get_object_or_404(Telefone, pk=id)
+    form = forms.ModFormTelefone(request.POST or None, instance=telefone)
+
+    if request.method == 'POST':
+        telefone.delete()
+        return redirect('cooperativa_view')
+    return render(request, 'telefone/delete.html', {'form': form})
