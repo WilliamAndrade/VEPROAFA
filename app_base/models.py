@@ -33,8 +33,8 @@ class TipoPagamento(models.Model):
         return self.tipo
 
 class Producao(models.Model):
-    cooperativa= models.OneToOneField('Cooperativa',null=False,blank=False,on_delete= models.PROTECT)
-    produto=models.OneToOneField(Produto,null=False,blank=False,on_delete= models.PROTECT)
+    cooperativa= models.ForeignKey('Cooperativa',null=False,blank=False,on_delete= models.PROTECT)
+    produto=models.ForeignKey(Produto,null=False,blank=False,on_delete= models.PROTECT)
     preco=models.DecimalField(max_digits=3,decimal_places=2)
     quantidade= models.DecimalField(decimal_places=3, max_digits=6)
 
@@ -60,7 +60,7 @@ class Cooperativa(models.Model):
     email= models.EmailField()
     aprovado=models.NullBooleanField()
     endereco = models.OneToOneField(Endereco, null=False, blank=False, on_delete=models.CASCADE)
-    assinaturas= models.ManyToManyField(Assinatura, blank=True,null=True)
+    assinaturas= models.ManyToManyField(Assinatura, blank=True)
 
     def __str__(self):
         return self.nome_fantasia
