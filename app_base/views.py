@@ -204,12 +204,10 @@ def telefone_delete(request, id):
 
 #VIEWS Assinaturas
 def list_all(request):
-    ass = Assinatura.objects.get(pk=request.user.id)
-    cliente = Cliente.objects.filter(assinaturas=ass.id).select_related()
-    assinatura = cliente.assinaturas.all()
-    #ativo = Cliente.objects.filter(user=request.user.id)
+    ass = Assinatura.objects.all()
+    cli = Cliente.objects.get(user=request.user)
     title = "Assinaturas"
-    return render(request,"assinatura/list_all.html",{"title":title,"cliente":cliente,"assinatura":assinatura})
+    return render(request,"assinatura/list_all.html",{"title":title,"ass":ass,"cli":cli})
 
 def assinar(request,id):
     cli = get_object_or_404(Cliente,pk=id)
