@@ -41,13 +41,12 @@ class Producao(models.Model):
     def __str__(self):
         return 'Produção de '+self.produto.nome
 
-
 class Assinatura(models.Model):
     nome = models.CharField(max_length=120,default='')
     preco = models.DecimalField(max_digits=6,decimal_places=3)
     sazonalidade = models.CharField(max_length=45)
     tipo_pagamento= models.ManyToManyField(TipoPagamento,blank=False)
-    producoes= models.ManyToManyField(Producao,blank=False)
+    producoes= models.ManyToManyField(Producao,blank=False,related_name="producao")
 
     def __str__(self):
         return self.nome

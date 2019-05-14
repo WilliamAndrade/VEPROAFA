@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect, get_object_or_404
-from .models import Endereco,Cooperativa,Producao,Produto,Assinatura,Telefone
+from .models import Endereco,Cooperativa,Producao,Produto,Assinatura,Telefone,Cliente
 from . import forms
 from django.contrib.auth import logout
 import json
@@ -201,3 +201,22 @@ def telefone_delete(request, id):
         telefone.delete()
         return redirect('cooperativa_view')
     return render(request, 'telefone/delete.html', {'form': form})
+
+#VIEWS Assinaturas
+def list_all(request):
+    ass = Assinatura.objects.get(pk=request.user.id)
+    cliente = Cliente.objects.filter(assinaturas=ass.id).select_related()
+    assinatura = cliente.assinaturas.all()
+    #ativo = Cliente.objects.filter(user=request.user.id)
+    title = "Assinaturas"
+    return render(request,"assinatura/list_all.html",{"title":title,"cliente":cliente,"assinatura":assinatura})
+
+def assinar(request,id):
+    cli = get_object_or_404(Cliente,pk=id)
+
+    form = forms.FormAssinatura(request.POST or None, instance=cli)
+    if form.is_valid():
+        form.save()
+        return redirect('list_all')
+    return render(request,'assinatura/assinar.html',{"form":form})
+

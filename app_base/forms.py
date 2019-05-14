@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Producao,Produto,Assinatura,Cooperativa,Endereco,Telefone
+from .models import Producao,Produto,Assinatura,Cooperativa,Endereco,Telefone,Cliente
 from django import forms
 
 class FormCooperativa(forms.Form):
@@ -39,6 +39,13 @@ class ModFormAssinatura(ModelForm):
     def __init__(self, cooperativa, *args, **kwargs):
         super(ModFormAssinatura, self).__init__(*args, **kwargs)
         self.fields['producoes'].queryset = Producao.objects.filter(cooperativa__id=cooperativa.id)
+
+
+class FormAssinatura(ModelForm):
+    class Meta:
+        model = Cliente
+        fields=['assinaturas']
+
 
 #Forms de Assinatura - FIM
 

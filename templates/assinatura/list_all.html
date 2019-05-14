@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block titulo %}{{title}}{% endblock %}
+{%load crispy_forms_tags%}
+
+{% block conteudo %}
+
+{% for assinaturas in assinatura%}
+<div class="card">
+  <div class="card-header">
+      <div class="row">
+      <div class="col-md-6"><h3>Oferta</h3></div>
+      <div class="col-md-6"><a href="{% url 'assinar' assinaturas.id%}" class="btn btn-primary" style="float:right">Assinar</a></div>
+      </div>
+
+  </div>
+  <div class="card-body">
+    <div class="row">
+        <div class="col-md-3">
+            <p>Promoção:</p>
+            <p>Sazonalidade:</p>
+            <p>Preço:</p>
+        </div>
+        <div class="col-md-6">
+        <p class="card-text">{{assinaturas.nome}}</p>
+        <p class="card-text">{{assinaturas.sazonalidade}}</p>
+        <p class="card-text">{{assinaturas.preco}}</p>
+        </div>
+
+    </div>
+
+
+  </div>
+</div>
+
+<br/>
+
+
+{%endfor%}
+
+
+{% endblock %}
